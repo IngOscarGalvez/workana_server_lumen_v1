@@ -1,0 +1,422 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Workana Server API",
+        "contact": {
+            "name": "Ingeniero Oscar Galvez",
+            "email": "oscargalvez1992@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/room/{id}": {
+            "get": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Find Room",
+                "parameters": [
+                    {
+                        "name": "Room Id",
+                        "in": "path",
+                        "description": "Room Id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns Room find id",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Success",
+                                    "code": 200,
+                                    "messages": [],
+                                    "result": {
+                                        "id": 1,
+                                        "name": "Issue 1",
+                                        "created_at": "2021-07-31T03:33:53.000000Z",
+                                        "updated_at": "2021-07-31T03:33:53.000000Z",
+                                        "users": [
+                                            {
+                                                "id": 1,
+                                                "name": "admin",
+                                                "email": "admin@admin.com",
+                                                "created_at": "2021-07-31T03:33:53.000000Z",
+                                                "updated_at": "2021-07-31T03:33:53.000000Z",
+                                                "pivot": {
+                                                    "room_id": 1,
+                                                    "user_id": 1,
+                                                    "vote_value": 5,
+                                                    "voted": 1
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not find Room",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Error",
+                                    "code": 404,
+                                    "messages": "The Room with id 100 does not exist",
+                                    "result": []
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/room": {
+            "get": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "List all Rooms",
+                "responses": {
+                    "200": {
+                        "description": "List all Rooms",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Success",
+                                    "code": 200,
+                                    "messages": [],
+                                    "result": [
+                                        {
+                                            "id": 1,
+                                            "name": "Issue 1",
+                                            "created_at": "2021-07-31T03:33:53.000000Z",
+                                            "updated_at": "2021-07-31T03:33:53.000000Z"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "Issue 2",
+                                            "created_at": "2021-07-31T03:33:53.000000Z",
+                                            "updated_at": "2021-07-31T03:33:53.000000Z"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "name": "Issue 3",
+                                            "created_at": "2021-07-31T03:33:53.000000Z",
+                                            "updated_at": "2021-07-31T03:33:53.000000Z"
+                                        },
+                                        {
+                                            "id": 4,
+                                            "name": "Issue 4",
+                                            "created_at": "2021-07-31T03:33:53.000000Z",
+                                            "updated_at": "2021-07-31T03:33:53.000000Z"
+                                        },
+                                        {
+                                            "id": 5,
+                                            "name": "Issue 5",
+                                            "created_at": "2021-07-31T03:33:53.000000Z",
+                                            "updated_at": "2021-07-31T03:33:53.000000Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Add new Room",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Room 1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Room Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Success",
+                                    "code": 201,
+                                    "messages": [],
+                                    "result": {
+                                        "name": "Room 1",
+                                        "updated_at": "2021-07-31T05:08:40.000000Z",
+                                        "created_at": "2021-07-31T05:08:40.000000Z",
+                                        "id": 8
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Request Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "The given data was invalid.",
+                                    "Errors": {
+                                        "name": [
+                                            "The name field is required."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/joinMe": {
+            "post": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Join Me Room ",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "number"
+                                    },
+                                    "room_id": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "user_id": 1,
+                                    "room_id": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User Join Me Room",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Success",
+                                    "code": 201,
+                                    "messages": [],
+                                    "result": {
+                                        "user_joined": {
+                                            "id": 1,
+                                            "name": "admin",
+                                            "email": "admin@admin.com",
+                                            "created_at": "2021-07-31T03:33:53.000000Z",
+                                            "updated_at": "2021-07-31T03:33:53.000000Z"
+                                        },
+                                        "room_id": "1"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Request Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "The given data was invalid.",
+                                    "Errors": {
+                                        "user_id": [
+                                            "The selected user id is invalid."
+                                        ],
+                                        "room_id": [
+                                            "The selected room id is invalid."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User Join Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Error",
+                                    "code": 403,
+                                    "messages": "The user is joined to the room",
+                                    "result": []
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/giveVote": {
+            "post": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Vote User",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "number"
+                                    },
+                                    "room_id": {
+                                        "type": "number"
+                                    },
+                                    "vote_value": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "user_id": 1,
+                                    "room_id": 1,
+                                    "vote_value": 13
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucess Vote User",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Success",
+                                    "code": 201,
+                                    "messages": [],
+                                    "result": {
+                                        "message": "Thank you, you have voted - value: 5"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Request Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "The given data was invalid.",
+                                    "Errors": {
+                                        "user_id": [
+                                            "The selected user id is invalid."
+                                        ],
+                                        "room_id": [
+                                            "The selected room id is invalid."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/usersRoomVotes": {
+            "post": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Users Voted by Room",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "room_id": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "room_id": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucess Users Voted by Room",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": "Success",
+                                    "code": 200,
+                                    "messages": [],
+                                    "result": {
+                                        "users": [
+                                            {
+                                                "user_id": 1,
+                                                "user_name": "admin",
+                                                "voted": 1,
+                                                "vote_value": 5
+                                            }
+                                        ],
+                                        "n_users": 1,
+                                        "avg_votes": 5
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Request Invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "The given data was invalid.",
+                                    "Errors": {
+                                        "room_id": [
+                                            "The selected room id is invalid."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
